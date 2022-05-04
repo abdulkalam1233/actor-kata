@@ -28,6 +28,8 @@ class PeopleServiceShould {
     private final Clock clock = Clock.fixed(ZonedDateTime.parse("2021-10-25T00:00:00.000+09:00[Asia/Seoul]").toInstant(), ZoneId.of("Asia/Seoul"));
     Person person;
 
+    CombinedCredit combinedCredit;
+
     @BeforeEach
     public void init() {
         page = new Page();
@@ -49,6 +51,11 @@ class PeopleServiceShould {
 
         person = new Person();
         person.setBirthday("1962-07-03");
+
+        combinedCredit = new CombinedCredit();
+        List<Credit> dummyData = new ArrayList<>();
+        combinedCredit.setCast(dummyData);
+        combinedCredit.setCrew(dummyData);
 
     }
 
@@ -77,5 +84,14 @@ class PeopleServiceShould {
         PeopleService peopleService = new PeopleService(tmbdClient);
         Optional<Person> person = peopleService.getById(500);
         assertThat(person.get().getAge()).isEqualTo(59);
+    }
+
+    @Test
+    void invoke_http_client_to_retrieve_person_combine_credits() {
+        when(tmbdClient.getPersonCombineCredits(500, null)).thenReturn(Optional.of(combinedCredit));
+        PeopleService peopleService = new PeopleService(tmbdClient);
+        Optional<CombinedCredit> result = peopleService.getPersonCombinedCredits(500);
+        assertThat(result.get().getCast().size()).isEqualTo(0);
+        assertThat(result.get().getCrew().size()).isEqualTo(0);
     }
 }

@@ -29,4 +29,12 @@ public class PeopleControllerShould {
         Optional<Person> person = peopleController.getById(500);
         verify(peopleService).getById(500);
     }
+
+    @Test
+    void invoke_service_to_Get_person_combined_credits() {
+        PeopleController peopleController = new PeopleController(peopleService);
+        Optional<CombinedCredit> result = peopleController.getPersonCombinedCredits(500);
+
+        verify(peopleService).getPersonCombinedCredits(500);
+    }
 }

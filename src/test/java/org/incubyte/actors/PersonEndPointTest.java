@@ -16,6 +16,7 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -59,4 +60,14 @@ public class PersonEndPointTest {
         assertThat(person.getPlaceOfBirth()).isEqualTo("Syracuse, New York, USA");
     }
 
+    @Test
+    void should_return_all_combined_credits_of_the_person() {
+        CombinedCredit combinedCredits =
+            httpClient.toBlocking().retrieve(HttpRequest.GET("people/500/combined_credits"),
+            Argument.of(CombinedCredit.class));
+
+        assertThat(combinedCredits.getCrew().size()).isGreaterThan(0);
+        assertThat(combinedCredits.getCast().size()).isGreaterThan(0);
+
+    }
 }

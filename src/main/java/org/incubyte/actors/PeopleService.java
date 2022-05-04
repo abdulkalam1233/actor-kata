@@ -6,7 +6,6 @@ import jakarta.inject.Singleton;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -45,5 +44,9 @@ public class PeopleService {
             e.printStackTrace();
         }
         return byId;
+    }
+
+    public Optional<CombinedCredit> getPersonCombinedCredits(int id) {
+        return this.tmbdClient.getPersonCombineCredits(id, apiKey);
     }
 }

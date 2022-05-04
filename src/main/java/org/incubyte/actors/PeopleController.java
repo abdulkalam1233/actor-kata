@@ -24,4 +24,9 @@ public class PeopleController {
     public Optional<Person> getById(int id) {
         return peopleService.getById(id);
     }
+
+    @Get("/{id}/combined_credits")
+    public Optional<CombinedCredit> getPersonCombinedCredits(int id) {
+        return peopleService.getPersonCombinedCredits(id);
+    }
 }
